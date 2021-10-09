@@ -1,5 +1,5 @@
-from ..debounce import debounce
 from . import Coordinate
+from .debounce import debounce
 from .hitbox import Hitbox
 
 
