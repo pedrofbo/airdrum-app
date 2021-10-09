@@ -2067,8 +2067,8 @@ python-versions = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.10,<3.11"
-content-hash = "32a5080fdbadaa187e52c6fdb56490c9be9e923151563af31f168657b41b829a"
+python-versions = ">=3.9,<3.11"
+content-hash = "bbb46c1ec95c9e96363c7b864c360d5e35fb72b2bcbca1d67f7a530b92036851"
 
 [metadata.files]
 black = [

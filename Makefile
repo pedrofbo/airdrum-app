@@ -12,6 +12,13 @@ format:
 	isort ${SOURCE_ROOT}
 	black ${SOURCE_ROOT}
 
+build:
+	docker compose build
+
 start:
+	xhost local:
+	python ${SOURCE_ROOT}/airdrum.py
+
+docker-start:
 	xhost local:
 	docker compose up

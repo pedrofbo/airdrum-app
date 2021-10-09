@@ -26,9 +26,9 @@ pip install .
 ## Como usar o projeto
 ### Docker
 ```bash
-make start
+make docker-start
 ```
 ### Manual
 ```bash
-python airdrum_app/airdrum.py
+make-start
 ```
