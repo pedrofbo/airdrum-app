@@ -4,12 +4,13 @@ SOURCE_ROOT := airdrum_app
 all: check
 
 check:
-	black --check --line-length 120 ${SOURCE_ROOT}
-	mypy -m ${SOURCE_ROOT}
+	black --check ${SOURCE_ROOT}
+	flake8 ${SOURCE_ROOT}
+    # mypy ${SOURCE_ROOT} # mypy hangs for some reason
 
 format:
 	isort ${SOURCE_ROOT}
-	black --line-length 120 ${SOURCE_ROOT}
+	black ${SOURCE_ROOT}
 
 start:
 	xhost local:
