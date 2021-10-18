@@ -2,7 +2,7 @@ import cv2
 import imutils
 import numpy as np
 import pyautogui
-from drum.drum import Drum
+from drum import Drum
 
 
 def press(key: str) -> None:
