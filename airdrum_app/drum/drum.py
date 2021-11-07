@@ -1,0 +1,32 @@
+from . import Coordinate
+from .drum_component import DrumComponent
+from .rectangular_hitbox import RectangularHitbox
+
+
+class Drum:
+    components: list[DrumComponent]
+
+    def __init__(self):
+        self._init_components()
+
+    def _init_components(self):
+        self.components = [
+            DrumComponent("ride", "ride.midi", RectangularHitbox((0, 0), (200, 150))),
+            DrumComponent("ride bell", "ride_bell.midi", RectangularHitbox((210, 0), (430, 150))),
+            DrumComponent("hit hat close", "hit_hat_close.midi", RectangularHitbox((440, 0), (650, 150))),
+            DrumComponent("crash", "crash.midi", RectangularHitbox((660, 0), (900, 150))),
+            DrumComponent("snare", "snare.midi", RectangularHitbox((0, 160), (50, 370))),
+            DrumComponent("snare rim", "snare_rim.midi", RectangularHitbox((0, 380), (50, 570))),
+            DrumComponent("hit hat", "hit_hat.midi", RectangularHitbox((850, 160), (900, 370))),
+            DrumComponent("hit hat open", "hit_hat_open.midi", RectangularHitbox((850, 380), (900, 570))),
+            DrumComponent("tom hi", "tom_hi.midi", RectangularHitbox((0, 580), (200, 700))),
+            DrumComponent("tom mid", "tom_mid.midi", RectangularHitbox((210, 580), (430, 700))),
+            DrumComponent("tom low", "tom_low.midi", RectangularHitbox((440, 580), (650, 700))),
+            DrumComponent("hit hat open", "hit_hat_open.midi", RectangularHitbox((660, 580), (900, 700))),
+        ]
+
+    def hit(self, coordinate: Coordinate) -> None:
+        for component in self.components:
+            if component.is_hit(coordinate):
+                component.play_sound()
+                break

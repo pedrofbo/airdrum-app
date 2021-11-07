@@ -1,17 +1,16 @@
-# onemotion.com
-import time
-
 import cv2
 import imutils
 import numpy as np
 import pyautogui
+from drum import Drum
 
 
-def Press(key):
+def press(key: str) -> None:
     pyautogui.press(key)
 
 
 cap = cv2.VideoCapture(0)
+drum = Drum()
 
 while True:
     _, frame = cap.read()
@@ -167,65 +166,15 @@ while True:
     )
 
     # for the red Object
-    contours, hierachy = cv2.findContours(
-        red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
-    )
+    contours, hierachy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
     # startpoint, endpoint, color, thickness
     for cnt in contours:
         (x, y, w, h) = cv2.boundingRect(cnt)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         print((x, y))
-        if x > 0 and y > 0 and x < 200 and y < 150:
-            Press("7")  # RIDE
-
-            break
-        if x > 210 and y > 0 and x < 430 and y < 150:
-            Press("8")  # RIDE BELL
-
-            break
-        if x > 440 and y > 0 and x < 650 and y < 150:
-            Press("6")  # HIT HAT CLOSE
-
-            break
-        if x > 660 and y > 0 and x < 900 and y < 150:
-            Press("9")  # CRASH
-
-            break
-
-        if x > 0 and y > 160 and x < 50 and y < 370:
-            Press("2")  # SNARE
-
-            break
-        if x > 0 and y > 380 and x < 50 and y < 570:
-            Press("3")  # SNARE RIM
-
-            break
-        if x > 850 and y > 160 and x < 900 and y < 370:
-            Press("4")  # HIT HAT
-
-            break
-        if x > 850 and y > 380 and x < 900 and y < 570:
-            Press("5")  # HIT HAT OPEN
-
-            break
-
-        if x > 0 and y > 580 and x < 200 and y < 700:
-            Press("q")  # TOM HI
-
-            break
-        if x > 210 and y > 580 and x < 430 and y < 700:
-            Press("w")  # TOM MID
-
-            break
-        if x > 440 and y > 580 and x < 650 and x < 700:
-            Press("e")  # TOM LOW
-
-            break
-        if x > 660 and y > 580 and x < 900 and y < 700:
-            Press("1")  # HIT HAT OPEN
-
-            break
+        middle = ((x + w) // 2, (y + h) // 2)
+        drum.hit(middle)
         break
 
     # for the blue Object

@@ -22,3 +22,13 @@ sudo apt-get install libqtgui4
 sudo apt-get install libqt4-test
 pip install .
 ```
+
+## Como usar o projeto
+### Docker
+```bash
+make docker-start
+```
+### Manual
+```bash
+make-start
+```
