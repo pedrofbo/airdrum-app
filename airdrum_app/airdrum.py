@@ -1,23 +1,35 @@
 import cv2
 import imutils
 import numpy as np
-import pyautogui
 from drum import Drum
-
-
-def press(key: str) -> None:
-    pyautogui.press(key)
-
+from utils import image_resize
 
 cap = cv2.VideoCapture(0)
+img_path = '../images/drum-v0.png'
+drum_image = image_resize(cv2.imread(img_path), height=530)
+drum_image = cv2.cvtColor(drum_image, cv2.COLOR_BGR2BGRA)
 drum = Drum()
 
 while True:
     _, frame = cap.read()
     frame = cv2.flip(frame, 1)
     frame = imutils.resize(frame, height=700, width=900)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    frame_h, frame_w, frame_c = frame.shape
+    drum_h, drum_w, drum_c = drum_image.shape
+    overlay = np.zeros((frame_h, frame_w, 4), dtype='uint8')
+
+    offset = 20
+    h_offset = frame_h - drum_h
+    w_offset = frame_w - drum_w - offset
+
+    overlay[h_offset:h_offset + drum_h, w_offset:w_offset + drum_w] = drum
+    cv2.addWeighted(overlay, 0.6, frame, 1, 0, frame)
+
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
 
     lowred = np.array([131, 90, 106])
     highred = np.array([255, 255, 255])
@@ -29,209 +41,48 @@ while True:
     blue_mask = cv2.inRange(hsv, lowblue, highblue)
 
     # image/frame, start_point, end_point, color, thickness
-    cv2.rectangle(frame, (0, 0), (200, 150), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "RIDE",
-        (70, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (210, 0), (430, 150), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "RIDE BELL",
-        (245, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (440, 0), (650, 150), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "HITHAT close",
-        (445, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (660, 0), (900, 150), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "CRASH",
-        (730, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
+    # red
+    cv2.circle(frame, (135, 465), 104, (0, 0, 255), 1)
+    cv2.circle(frame, (233, 280), 102, (0, 0, 255), 1)
+    cv2.circle(frame, (660, 280), 51, (0, 0, 255), 1)
+    cv2.circle(frame, (775, 395), 104, (0, 0, 255), 1)
 
-    cv2.rectangle(frame, (0, 160), (50, 370), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "SNARE",
-        (10, 290),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (0, 380), (50, 570), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "SNARE RIM",
-        (10, 500),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
+    # green
+    cv2.circle(frame, (310, 550), 87, (0, 255, 0), 1)
+    cv2.circle(frame, (650, 565), 106, (0, 255, 0), 1)
 
-    cv2.rectangle(frame, (850, 160), (900, 370), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "HIT HAT",
-        (770, 290),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (850, 380), (900, 570), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "HIT HAT OPEN",
-        (670, 500),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
-
-    cv2.rectangle(frame, (0, 580), (200, 700), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "TOM HI",
-        (50, 640),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (210, 580), (430, 700), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "TOM MID",
-        (250, 640),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (440, 580), (650, 700), (255, 0, 0), 1)
-    cv2.putText(
-        frame,
-        "TOM LOW",
-        (480, 640),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (0, 0, 255),
-        3,
-        cv2.LINE_AA,
-    )
-    cv2.rectangle(frame, (660, 580), (900, 700), (0, 0, 255), 1)
-    cv2.putText(
-        frame,
-        "KICK",
-        (740, 640),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        1,
-        (255, 0, 0),
-        3,
-        cv2.LINE_AA,
-    )
+    # blue
+    cv2.circle(frame, (395, 358), 73, (255, 0, 0), 1)
+    cv2.circle(frame, (548, 358), 73, (255, 0, 0), 1)
 
     # for the red Object
     contours, hierachy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
     # startpoint, endpoint, color, thickness
     for cnt in contours:
-        (x, y, w, h) = cv2.boundingRect(cnt)
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        print((x, y))
-        middle = ((x + w) // 2, (y + h) // 2)
-        drum.hit(middle)
+        (center, radius) = cv2.minEnclosingCircle(cnt)
+        cv2.circle(frame, (int(center[0]), int(center[1])), int(radius), (0, 255, 0), 2)
+        # print((center[0], center[1]))
+        drum.hit((int(center[0]), int(center[1])))
         break
 
     # for the blue Object
-    # contours, hierachy = cv2.findContours(blue_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    # contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
+    contours, hierachy = cv2.findContours(blue_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
     # # startpoint, endpoint, color, thickness
-    # for cnt in contours:
-    #     (x, y, w, h) = cv2.boundingRect(cnt)
-    #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    #     print((x, y))
-    #     if x > 0 and y > 0 and x < 200 and y < 150:
-    #         Press('7')  # RIDE
-    #         break
-    #     if x > 210 and y > 0 and x < 430 and y < 150:
-    #         Press('8')  # RIDE BELL
-    #         break
-    #     if x > 440 and y > 0 and x < 650 and y < 150:
-    #         Press('6')  # HIT HAT CLOSE
-    #         break
-    #     if x > 660 and y > 0 and x < 900 and y < 150:
-    #         Press('9')  # CRASH
-    #         break
-    #
-    #     if x > 0 and y > 160 and x < 50 and y < 370:
-    #         Press('2')  # SNARE
-    #         break
-    #     if x > 0 and y > 380 and x < 50 and y < 570:
-    #         Press('3')  # SNARE RIM
-    #         break
-    #     if x > 850 and y > 160 and x < 900 and y < 370:
-    #         Press('4')  # HIT HAT
-    #         break
-    #     if x > 850 and y > 380 and x < 900 and y < 570:
-    #         Press('5')  # HIT HAT OPEN
-    #         break
-    #
-    #     if x > 0 and y > 580 and x < 200 and y < 700:
-    #         Press('q')  # TOM HI
-    #         break
-    #     if x > 210 and y > 580 and x < 430 and y < 700:
-    #         Press('w')  # TOM MID
-    #         break
-    #     if x > 440 and y > 580 and x < 650 and x < 700:
-    #         Press('e')  # TOM LOW
-    #         break
-    #     if x > 660 and y > 580 and x < 900 and y < 700:
-    #         Press('1')  # HIT HAT OPEN
-    #         break
-    #     break
+    for cnt in contours:
+        (center, radius) = cv2.minEnclosingCircle(cnt)
+        cv2.circle(frame, (int(center[0]), int(center[1])), int(radius), (0, 255, 0), 2)
+        # print((center[0], center[1]))
+        drum.hit((int(center[0]), int(center[1])))
+        break
 
     cv2.imshow("frame", frame)
     # cv2.imshow("mask", mask)
     # cv2.imshow("res", res)
 
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+      break
 
 cap.release()
 cv2.destroyAllWindows()

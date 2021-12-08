@@ -1,6 +1,18 @@
 from . import Coordinate
 from .debounce import debounce
 from .hitbox import Hitbox
+import pyautogui
+
+instrument_to_key = {
+    "hi hat": "4",
+    "ride bell": "8",
+    "crash": "9",
+    "ride": "7",
+    "tom 1": "Q",
+    "tom 2": "W",
+    "snare": "2",
+    "floor tom": "E",
+}
 
 
 class DrumComponent:
@@ -18,4 +30,5 @@ class DrumComponent:
 
     @debounce(timeout_ms=1000)
     def play_sound(self) -> None:
+        pyautogui.press(instrument_to_key[self.name])
         print(f"Playing the ${self.name}: {self.sound}")
