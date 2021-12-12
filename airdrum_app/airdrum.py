@@ -26,7 +26,7 @@ while True:
     h_offset = frame_h - drum_h
     w_offset = frame_w - drum_w - offset
 
-    overlay[h_offset:h_offset + drum_h, w_offset:w_offset + drum_w] = drum
+    overlay[h_offset:h_offset + drum_h, w_offset:w_offset + drum_w] = drum_image
     cv2.addWeighted(overlay, 0.6, frame, 1, 0, frame)
 
     frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
