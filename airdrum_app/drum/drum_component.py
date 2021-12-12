@@ -1,4 +1,4 @@
-from . import Coordinate
+from .coordinate import Coordinate
 from .debounce import debounce
 from .hitbox import Hitbox
 import pyautogui

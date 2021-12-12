@@ -1,4 +1,4 @@
-from . import Coordinate
+from .coordinate import Coordinate
 from .hitbox import Hitbox
 
 

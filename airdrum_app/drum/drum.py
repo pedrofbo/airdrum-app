@@ -1,4 +1,4 @@
-from . import Coordinate
+from .coordinate import Coordinate
 from .drum_component import DrumComponent
 from .circular_hitbox import CircularHitbox
 

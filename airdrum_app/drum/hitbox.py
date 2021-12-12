@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from . import Coordinate
+from .coordinate import Coordinate
 
 
 class Hitbox(ABC):
