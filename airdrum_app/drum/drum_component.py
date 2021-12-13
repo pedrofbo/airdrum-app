@@ -1,4 +1,3 @@
-from . import Coordinate
 from .debounce import debounce
 from .hitbox import Hitbox
 import pyautogui
@@ -25,7 +24,7 @@ class DrumComponent:
         self.sound = sound
         self.hitbox = hitbox
 
-    def is_hit(self, coordinate: Coordinate) -> bool:
+    def is_hit(self, coordinate) -> bool:
         return self.hitbox.is_colliding(coordinate)
 
     @debounce(timeout_ms=1000)

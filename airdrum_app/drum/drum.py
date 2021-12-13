@@ -1,10 +1,8 @@
-from . import Coordinate
 from .drum_component import DrumComponent
 from .circular_hitbox import CircularHitbox
 
 
 class Drum:
-    components: list[DrumComponent]
 
     def __init__(self):
         self._init_components()
@@ -36,7 +34,7 @@ class Drum:
         #     DrumComponent("hit hat open", "hit_hat_open.midi", RectangularHitbox((660, 580), (900, 700))),
         # ]
 
-    def hit(self, coordinate: Coordinate) -> None:
+    def hit(self, coordinate) -> None:
         for component in self.components:
             if component.is_hit(coordinate):
                 component.play_sound()
