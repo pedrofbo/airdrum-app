@@ -4,6 +4,23 @@ import numpy as np
 from drum import Drum
 from utils import image_resize
 
+from gpiozero import Button
+from signal import pause
+from pygame import mixer
+
+btn = Button(17)
+
+mixer.init()
+drum_kick = mixer.Sound('../drumkit/kick1.wav')
+
+222
+def kick():
+    print("kick!")
+    drum_kick.play()
+
+
+btn.when_pressed = kick
+
 cap = cv2.VideoCapture(0)
 img_path = '../images/drum-v0.png'
 drum_image = image_resize(cv2.imread(img_path), height=530)
@@ -82,7 +99,7 @@ while True:
     # cv2.imshow("res", res)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
-      break
+        break
 
 cap.release()
 cv2.destroyAllWindows()
